@@ -1,20 +1,12 @@
 body {
-    height: 85vh;
+    height: 100vh;
     background-color: #333;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
     margin: 0px;
-}
-
-label {
-    position: absolute;
-    text-align: left;
-    width: 100%;
-    color: #fff;
-    left: 4px;
-    position: relative;
+    font-size: 24px;
 }
 
 input {
@@ -23,4 +15,8 @@ input {
     border-radius: 5px;
     box-sizing: border-box;
     color: white;
+    font-size: inherit;
+    height: calc(1em + 6px);
+    caret-color: #888;
+    outline: none;
 }
