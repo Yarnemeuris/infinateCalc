@@ -1,8 +1,16 @@
+const outputPreset = '<div class="output"><h3 class="new">$</h3><h2 class="new">€</h2></div>'
+
 document.addEventListener("keydown", (event) => {
     if (event.key !== "Enter") return;
 
-    calculate(document.querySelector("#input").value)
+    var result = calculate(document.querySelector("#input").value)
+    display(document.querySelector("#input").value, result);
+    document.querySelector("#input").value = "";
 })
+
+function display(formula, output) {
+    document.querySelector("#outputs").innerHTML = outputPreset.replace("$", formula).replace("€", output) + document.querySelector("#outputs").innerHTML;
+}
 
 function calculate(formula) {
     if (formula == "") return "0.";
@@ -45,7 +53,7 @@ function calculate(formula) {
         }
     }
 
-    console.log(formula)
+    return formula[0];
 }
 
 function digitsBeforePoint(number) {
