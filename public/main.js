@@ -1,4 +1,4 @@
-const outputPreset = '<div class="output"><h3 class="new">$</h3><h2 class="new">€</h2></div>'
+const outputPreset = '<div class="output"><h3>$</h3><h2>€</h2></div>'
 
 document.addEventListener("keydown", (event) => {
     if (event.key !== "Enter") return;

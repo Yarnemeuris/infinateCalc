@@ -18,29 +18,28 @@ input {
 }
 
 h3 {
+    position: relative;
     color: white;
     text-align: left;
-    position: absolute;
-    margin-top: 5px;
     margin-bottom: 0px;
+    margin-right: 10px;
+    width: 100%;
     font-size: 2rem;
-    left: 5px;
-    top: px;
 }
 
 h2 {
-    box-sizing: content-box;
+    position: relative;
     color: white;
     text-align: right;
-    position: absolute;
     margin-top: 0px;
-    margin-bottom: 5px;
-    bottom: 0px;
-    right: 5px;
+    margin-left: 10px;
+    width: 100%;
     font-size: 2rem;
+    top: 5px;
 }
 
 .output {
-    height: calc(4rem + 10px);
     position: relative;
+    height: auto;
+    margin: 5px;
 }
