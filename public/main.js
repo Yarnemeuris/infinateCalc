@@ -13,13 +13,13 @@ document.querySelector("#precision").addEventListener("input", (event) => {
     else document.querySelector("#customPrecision").classList.add("hide");
 
     precision = value != "custom" ? value : document.querySelector("#customPrecision").value
-    if (precision == "") precision = "100";
+    if (precision == "") precision = 100;
 })
 
 document.querySelector("#customPrecision").addEventListener("input", (event) => {
     if (document.querySelector("#precision").value != "custom") return
 
-    precision = event.target.value == "" ? "100" : event.target.value;
+    precision = event.target.value == "" ? 100 : event.target.value;
 })
 
 document.addEventListener("keydown", (event) => {
@@ -34,7 +34,7 @@ function display(formula, output) {
     document.querySelector("#outputs").innerHTML = outputPreset.replace("$", formula).replace("€", output) + document.querySelector("#outputs").innerHTML;
 }
 
-function executeOperation(formula, regex, operation) {
+function executeOperation(formula, regex, operations) {
     loop: {
         while (true) {
             for (var i = 1; ; i++) {
@@ -43,10 +43,10 @@ function executeOperation(formula, regex, operation) {
                 if (formula[i - 1] == undefined) continue;
                 if (formula[i + 1] == undefined) continue;
 
-                var num1 = formula[i] == "-" ? "-" + formula[i + 1] : formula[i + 1];
-                var num2 = formula[i - 2] == "-" ? "-" + formula[i - 1] : formula[i - 1];
+                var num1 = formula[i - 2] == "-" ? "-" + formula[i - 1] : formula[i - 1];
+                var num2 = formula[i] == "-" ? "-" + formula[i + 1] : formula[i + 1];
 
-                var result = operation(num1, num2);
+                var result = operations[formula[i]](num1, num2);
                 formula.splice(i - 1 - (formula[i - 2] == "-"), 3 + (formula[i - 2] == "-"), result);
                 break;
             }
@@ -76,9 +76,9 @@ function calculate(formula) {
         formula[index] = value + "."
     })
 
-    executeOperation(formula, /[\*]/, multiply);
+    executeOperation(formula, /[\*\/]/, {"*": multiply, "/": divide});
 
-    executeOperation(formula, /[\+\-]/, add);
+    executeOperation(formula, /[\+\-]/, {"+": add, "-": add});
 
     return formula[0];
 }
