@@ -97,7 +97,7 @@ function maxAbs(a, b) {
 
     if (digitsBeforePoint(a) != digitsBeforePoint(b)) return digitsBeforePoint(a) > digitsBeforePoint(b) ? a : b;
 
-    for (var i = 0; i < digitsBeforePoint(a); i++) {
+    for (var i = 0; i < a.length; i++) {
         if (a[i] == b[i]) continue
 
         return a[i] > b[i] ? a : b
@@ -141,7 +141,7 @@ function add(a, b) {
         carry = digit >= 10 ? Math.floor(digit / 10) : digit < 0 ? -1 : 0;
     }
 
-    result = result.replace(/^(0)/,"");
+    result = result.replace(/^(0)/, "");
 
     if (switchSign) {
         if (result[0] == "-") result = result.replace("-");
@@ -175,7 +175,45 @@ function multiply(a, b) {
     }
 
     result = result.replace(".", "");
-    result = result.slice(0, result.length-totalDigitsAfterPoint).concat(".", result.slice(result.length-totalDigitsAfterPoint));
+    result = result.slice(0, result.length - totalDigitsAfterPoint).concat(".", result.slice(result.length - totalDigitsAfterPoint));
+    if (sign) result = "-" + result;
+    return result;
+}
+
+function divide(a, b) {
+    var sign = (a[0] != "-") ^ (b[0] != "-");
+
+    a = a.replace("-", "");
+    b = b.replace("-", "");
+
+    var pointPosition = digitsBeforePoint(a) - digitsBeforePoint(b);
+
+    var result = "";
+    var currentPart = "";
+    var currentDigit = 0;
+    while (true) {
+        while (maxAbs(currentPart + ".", b) == b) {
+            var char = (currentDigit + 1 > a.length) ? "0" : a[currentDigit]
+            currentDigit++;
+            if (char == ".") continue;
+            currentPart = currentPart + char;
+        }
+
+        var times = 1;
+        while (maxAbs(currentPart, multiply(b, times + 1 + ".")) == currentPart) times++;
+
+        currentPart = add(currentPart + ".", "-" + multiply(b, times + ".")).replace(".", "");
+        result = result + times.toString();
+
+        if (result.match(/./).length == 1 && result.length >= precision) break;
+    }
+
+    if (pointPosition < 0) {
+        result = "0".repeat(pointPosition * -1) + result;
+        pointPosition = 0;
+    }
+
+    result = result.slice(0, pointPosition).concat(".", result.slice(pointPosition));
     if (sign) result = "-" + result;
     return result;
 }
