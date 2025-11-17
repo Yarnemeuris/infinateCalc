@@ -214,6 +214,8 @@ function divide(a, b) {
     }
 
     result = result.slice(0, pointPosition).concat(".", result.slice(pointPosition));
+    if (pointPosition == 0) result = "0" + result;
+
     if (sign) result = "-" + result;
     return result;
 }
