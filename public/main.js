@@ -141,6 +141,8 @@ function add(a, b) {
         carry = digit >= 10 ? Math.floor(digit / 10) : digit < 0 ? -1 : 0;
     }
 
+    result = result.replace(/^(0)/,"");
+
     if (switchSign) {
         if (result[0] == "-") result = result.replace("-");
         else result = "-" + result;
